@@ -1,0 +1,13 @@
+{% extends 'rest_adv/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    Restaurant Page
+{% endblock %}
+
+{% block body_block %}
+    {% if restaurant %}
+        <h1>{{ restaurant.name }}</h1>
+        <h2>rate:{{ restaurant.rate }}</h2>
+        <img src="{{ MEDIA_URL }}rest-test1.jpg" alt="Picture of rest" />
+    {% endif %}
+{% endblock %}
