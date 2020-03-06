@@ -1,0 +1,8 @@
+<ul>
+    {{review.rate}}
+    {{review.message}}
+    {{user.username}}
+    {% if user.profile.picture %}
+        <img src="{{ user.profile.picture.url }}" height="200" width="150"/>
+    {% endif %}
+</ul>

@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_adv.models import Restaurant
+from rest_adv.models import Restaurant,Review
 
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from rest_adv.forms import UserForm, UserProfileForm
+from rest_adv.forms import UserForm, UserProfileForm, ReviewForm
 
 # Create your views here.
 def index(request):
@@ -19,6 +19,8 @@ def show_restaurant(request, restaurant_name_slug):
     try:
         restaurant = Restaurant.objects.get(slug=restaurant_name_slug)
         context_dict['restaurant'] = restaurant
+        reviews = Review.objects.filter(restaurant=restaurant)
+        context_dict['reviews'] = reviews
     except Restaurant.DoesNotExist:
         context_dict['restaurant'] = None
     return render(request, 'rest_adv/restaurant.html', context = context_dict)
@@ -122,3 +124,29 @@ def user_logout(request):
     logout(request)
     # Take the user back to the homepage.
     return redirect(reverse('rest_adv:index'))
+
+@login_required
+def add_review(request, restaurant_name_slug):
+    try:
+        restaurant = Restaurant.objects.get(slug=restaurant_name_slug)
+    except Restaurant.DoesNotExist:
+        restaurant = None
+    if restaurant is None:
+        return redirect('rest_adv')
+
+    form = ReviewForm()
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            if restaurant:
+                review = form.save(commit=False)
+                review.restaurant=restaurant
+                review.user=request.user
+                review.save()
+                return redirect(reverse('rest_adv:show_restaurant',
+                                        kwargs={'restaurant_name_slug':
+                                                restaurant_name_slug}))
+        else:
+            print(form.errors)
+    context_dict={'form':form,'restaurant':restaurant}
+    return render(request,'rest_adv/add_review.html',context_dict)

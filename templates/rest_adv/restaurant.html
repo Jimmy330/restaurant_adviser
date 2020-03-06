@@ -1,5 +1,6 @@
 {% extends 'rest_adv/base.html' %}
 {% load staticfiles %}
+{% load rest_adv_template_tags %}
 {% block title_block %}
     Restaurant Page
 {% endblock %}
@@ -9,5 +10,15 @@
         <h1>{{ restaurant.name }}</h1>
         <h2>rate:{{ restaurant.rate }}</h2>
         <img src="{{ MEDIA_URL }}rest-test1.jpg" alt="Picture of rest" />
+    {% endif %}
+    {% for r in reviews %}
+        <div>
+        {% block sidebar_block %}
+            {% show_review r %}
+        {% endblock %}
+        </div>
+    {% endfor %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'rest_adv:add_review' restaurant.slug %}">Add Review</a> <br />
     {% endif %}
 {% endblock %}
