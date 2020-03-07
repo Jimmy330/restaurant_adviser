@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'rest_adv/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Add New Restaurant
+{% endblock %}
+
+{% block body_block %}
+    <h1>Add Restaurant</h1>
+        <form id="restaurant_form" method="post" action="{% url 'rest_adv:add_restaurant' %}"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Submit" />
+        </form>
+
+{% endblock %}

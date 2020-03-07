@@ -7,6 +7,8 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=128, unique=True)
     rate = models.FloatField(default = 0)
     slug = models.SlugField(unique = True)
+    intro = models.TextField(default = 'nothing yet')
+    picture = models.ImageField(upload_to='restaurant_images', blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -23,7 +25,7 @@ class Review(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rate = models.IntegerField(default = 0)
-    message = models.TextField()
+    message = models.TextField(default = 'nothing yet')
 
     def __str__(self):
         return self.rate

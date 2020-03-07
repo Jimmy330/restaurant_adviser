@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from rest_adv.forms import UserForm, UserProfileForm, ReviewForm
+from rest_adv.forms import UserForm, UserProfileForm, ReviewForm, RestaurantForm
 
 # Create your views here.
 def index(request):
@@ -150,3 +150,21 @@ def add_review(request, restaurant_name_slug):
             print(form.errors)
     context_dict={'form':form,'restaurant':restaurant}
     return render(request,'rest_adv/add_review.html',context_dict)
+
+@login_required
+def add_restaurant(request):
+    form=RestaurantForm()
+    if request.method == 'POST':
+        form = RestaurantForm(request.POST)
+        if form.is_valid():
+            restaurant = form.save(commit=False)
+            restaurant.rate = 0
+            if 'picture' in request.FILES:
+                restaurant.picture = request.FILES['picture']
+            restaurant.save()
+            return redirect(reverse('rest_adv:show_restaurant',
+                                    kwargs={'restaurant_name_slug':
+                                                restaurant.slug}))
+        else:
+            print(form.errors)
+    return render(request, 'rest_adv/add_restaurant.html', {'form':form })

@@ -9,7 +9,13 @@
     {% if restaurant %}
         <h1>{{ restaurant.name }}</h1>
         <h2>rate:{{ restaurant.rate }}</h2>
-        <img src="{{ MEDIA_URL }}rest-test1.jpg" alt="Picture of rest" />
+        <div>
+            {{restaurant.intro}}
+        </div>
+        {{restaurant.}}
+        {% if restaurant.picture %}
+            <img src="{{ restaurant.picture.url }}" height="200" width="150"/>
+        {% endif %}
     {% endif %}
     {% for r in reviews %}
         <div>
