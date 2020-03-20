@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends 'rest_adv/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    Login
+{% endblock %}
+
+{% block body_block %}
+<h1>this is a test index view</h1>
+ <a href="{% url 'rest_adv:add_restaurant'%}">添加一个餐厅</a> <br />
+ <a href="{% url 'rest_adv:show_restaurant' "rest-test1" %}">一个餐厅界面的demo</a> <br />
+{% endblock %}

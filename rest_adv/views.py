@@ -12,7 +12,7 @@ from rest_adv.forms import UserForm, UserProfileForm, ReviewForm, RestaurantForm
 # Create your views here.
 def index(request):
 
-    return render(request,'rest_adv/homepage.html')
+    return render(request,'rest_adv/index.html')
 
 def show_restaurant(request, restaurant_name_slug):
     context_dict={}
