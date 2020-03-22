@@ -28,6 +28,59 @@ def search_restaurant(request):
         context_dict['restaurants'] = []
     return render(request, 'rest_adv/search_restaurant.html', context = context_dict)
 
+@login_required
+def my_profile(request):
+    context_dict = {}
+    try:
+        context_dict['user'] = request.user
+    except Restaurant.DoesNotExist:
+        context_dict['user'] = None
+    return render(request, 'rest_adv/my_profile.html', context = context_dict)
+
+@login_required
+def update_my_profile(request):
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            website = request.POST.get('website')
+            
+            # request.user.like_restaurants.add(restaurant_id)
+            current_user = request.user
+
+            if current_user.username != username:
+                current_user.username = username
+                current_user.save()
+
+            if 'picture' in request.FILES:
+                current_user.profile.picture = request.FILES['picture']
+                current_user.profile.save()
+            
+            if current_user.profile.website != website:
+                current_user.profile.website = website
+                current_user.profile.save()
+            
+    except Restaurant.DoesNotExist:
+        pass
+    return redirect(reverse('rest_adv:my_profile'))
+
+@login_required
+def my_collections(request):
+    context_dict = {}
+    try:
+        context_dict['restaurants'] = request.user.profile.like_restaurants.all()
+    except Restaurant.DoesNotExist:
+        context_dict['restaurants'] = None
+    return render(request, 'rest_adv/my_collections.html', context = context_dict)
+
+@login_required
+def my_reviews(request):
+    context_dict = {}
+    try:
+        context_dict['reviews'] = Review.objects.filter(user=request.user)
+    except Restaurant.DoesNotExist:
+        context_dict['reviews'] = None
+    return render(request, 'rest_adv/my_reviews.html', context = context_dict)
+
 def show_restaurant(request, restaurant_name_slug):
     context_dict={}
     try:
@@ -42,7 +95,6 @@ def show_restaurant(request, restaurant_name_slug):
 @login_required
 def save_restaurant(request):
     try:
-        print(request.body)
         if request.method == 'POST':
             # json_result = json.loads(request.body, strict=False)
             restaurant_id = request.POST.get('id')
