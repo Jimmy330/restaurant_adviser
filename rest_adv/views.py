@@ -50,9 +50,14 @@ def save_restaurant(request):
             
             # request.user.like_restaurants.add(restaurant_id)
             current_user = UserProfile.objects.get(user_id=request.user.id)
-            current_user.like_restaurants.add(restaurant_id)
+
+            if current_user.like_restaurants.filter(id=restaurant_id):
+                result = {"status":"not post","data":"You have saved it~!"}
+            else:
+                current_user.like_restaurants.add(restaurant_id)
+                result = {"status":"not post","data":"Saved success!"}
+
             # return success
-            result = {"status":"not post","data":current_user.name}
             return JsonResponse(result,safe=False) 
         else:
             result = {"status":"not post","data":[request.body]}
@@ -60,7 +65,7 @@ def save_restaurant(request):
     except Restaurant.DoesNotExist:
         # return error
         result = {"status":"error","data":""}
-        # return JsonResponse(result)
+        return JsonResponse(result)
 
 def register(request):
     # A boolean value for telling the template

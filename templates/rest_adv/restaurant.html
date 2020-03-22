@@ -213,10 +213,6 @@
 </div>
 </div>
 
-
-
-
-
 {% endblock %} {% block js_block %}
 <script type="text/javascript ">
     $('.carousel').carousel({
@@ -235,5 +231,30 @@
             return val + ' stars';
         }
     });
+
+    $("#save-restaurant").click(function(e) {
+            let csrf = $('input[name="csrfmiddlewaretoken"]').val();
+            console.log('saving restaurant ...');
+            let url = "{% url 'rest_adv:save_restaurant' %}"
+
+            $.ajax({
+                url: url,
+                data: {
+                    'csrfmiddlewaretoken': csrf,
+                    'id': "{{restaurant.id}}"
+                },
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    alert(data.data);
+                },
+                error: function() {
+                    // view("异常！");    
+                    alert("Error!");
+                }
+            });
+        });
 </script>
 {% endblock %}
