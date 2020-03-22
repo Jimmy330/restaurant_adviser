@@ -24,6 +24,9 @@ def index(request):
     context_dict['restaurants'] = Restaurant.objects.all().order_by('id')
     # get top 3 rate restaurants
     context_dict['top_restaurants'] = Restaurant.objects.all().order_by('-rate')[:3]
+
+    # get first
+    context_dict['first_restaurant'] = context_dict['first_restaurant'][0]
     return render(request,'rest_adv/index.html', context_dict)
 
 def category_restaurant(request, category):

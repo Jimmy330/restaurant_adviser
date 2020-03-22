@@ -61,19 +61,26 @@
         /* color:; */
         width: 100%;
         /* overflow: hidden; */
+        height: 100%;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
     }
     
     .m-restaurant__buttons {
-        height: 100%;
     }
     
     .l-restaurant__buttons {
         display: flex;
         justify-content: flex-end;
-        align-items: flex-end;
+        /* align-items: flex-end; */
+        align-items: baseline;
+    }
+    .m-restaurant__button {
+        font-size: 16px;
+    }
+    .l-restaurant__button {
+        margin-left: 10px;
     }
     /* restaurant list */
     /* review list */
@@ -174,8 +181,8 @@
             <input type="text " class="m-mostliked__starrating " value="{{restaurant.rate}} " data-size="sm ">
             <div class="l-restaurant__p m-restaurant__p ">{{restaurant.intro}}</div>
             <div class="l-restaurant__buttons m-restaurant__buttons">
-                <a class="l-restaurant__button m-restaurant__button" href="{% url 'rest_adv:add_review' restaurant.slug %}" style="margin:5px;">review</a><a class="l-restaurant__button m-restaurant__button" href="url" style="margin:5px;">share</a>
-                <button class="l-restaurant__button m-restaurant__button" id="save-restaurant">save</button>
+                <a class="l-restaurant__button m-restaurant__button btn btn-default" href="{% url 'rest_adv:add_review' restaurant.slug %}" style="margin:5px;">review</a>
+                <button class="l-restaurant__button m-restaurant__button btn btn-default" id="save-restaurant">save</button>
             </div>
         </div>
         <div class="l-restaurant__cover m-restaurant__cover">

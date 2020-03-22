@@ -209,31 +209,26 @@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
+                {% for top_restaurant in top_restaurants %}
+                
+                {% if top_restaurant == first_restaurant %}
                 <div class="item active">
-                    <a href={% url 'rest_adv:show_restaurant' "rest-test1" %}>
+                {% else %}
+                <div class="item">
+                {% endif %}
+                    <a href="{% url 'rest_adv:show_restaurant' top_restaurant.slug %}">
+                        {% if top_restaurant.picture %}
+                        <img src={{top_restaurant.picture.url}} class="d-block w-100 m-carousel-image" alt="Lorem Ipsum Dolor Sample Text">
+                        {% else %}
                         <img src={% static "images/1.jpeg" %} class="d-block w-100 m-carousel-image" alt="Lorem Ipsum Dolor Sample Text">
+                        {% endif %}
                     </a>
                     <div class="carousel-caption">
-                        <h3>Lorem Ipsum Dolor Sample Text</h3>
+                        <h3>{{top_restaurant.name}}</h3>
                     </div>
                 </div>
-                <div class="item">
-                    <a href={% url 'rest_adv:show_restaurant' "rest-test1" %}>
-                        <img src={% static "images/2.jpeg" %} class="d-block w-100 m-carousel-image" alt="...">
-                    </a>
-                    <div class="carousel-caption">
-                        <h3>Lorem Ipsum Dolor Sample Text</h3>
+                {% endfor %}
 
-                    </div>
-                </div>
-                <div class="item">
-                    <a href={% url 'rest_adv:show_restaurant' "rest-test1" %}>
-                        <img src={% static "images/3.jpeg" %} class="d-block w-100 m-carousel-image" alt="">
-                    </a>
-                    <div class="carousel-caption">
-                        <h3>Lorem Ipsum Dolor Sample Text</h3>
-                    </div>
-                </div>
             </div>
 
             <!-- Controls -->
