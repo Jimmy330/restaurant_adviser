@@ -8,7 +8,7 @@ class Restaurant(models.Model):
     rate = models.FloatField(default = 0)
     slug = models.SlugField(unique = True)
     intro = models.TextField(default = 'nothing yet')
-    picture = models.ImageField(upload_to='restaurant_images', blank=True)
+    picture = models.ImageField(upload_to='restaurant_images', blank=True, default="statics/images/1.jpeg")
 
     createdAt = models.DateTimeField("Create time",auto_now_add=True)
     updatedAt = models.DateTimeField("Update time",auto_now=True)

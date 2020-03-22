@@ -185,8 +185,9 @@
     </div>
 
     <div class="l-search m-search">
-        <form class="l-search__form">
-            <input class="l-search__input m-search__input form-control" type="search" placeholder="Search" aria-label="Search">
+        <form class="l-search__form" method="get" action="/rest_adv/search_restaurant">
+            {% csrf_token %}
+            <input name="search_text" class="l-search__input m-search__input form-control" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>

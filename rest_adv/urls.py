@@ -14,4 +14,5 @@ urlpatterns = [
          views.add_review, name='add_review'),
     path('add_restaurant/',views.add_restaurant,name='add_restaurant'),
     path('save_restaurant/',views.save_restaurant,name='save_restaurant'),
+    path('search_restaurant',views.search_restaurant,name='search_restaurant'),
 ]
