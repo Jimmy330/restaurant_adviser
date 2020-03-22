@@ -1,5 +1,7 @@
 import json
 
+from django.contrib.auth.models import User
+
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_adv.models import Restaurant,Review,UserProfile
@@ -9,11 +11,20 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from django.core.files import File
+from io import BytesIO
+from urllib.request import urlopen
+
 from rest_adv.forms import UserForm, UserProfileForm, ReviewForm, RestaurantForm
 
 # Create your views here.
 def index(request):
-    return render(request,'rest_adv/index.html')
+    context_dict = {}
+    # get all restaurants
+    context_dict['restaurants'] = Restaurant.objects.all().order_by('id')
+    # get top 3 rate restaurants
+    context_dict['top_restaurants'] = Restaurant.objects.all().order_by('-rate')[:3]
+    return render(request,'rest_adv/index.html', context_dict)
 
 def category_restaurant(request, category):
     context_dict={'restaurants':[],'search_text':category}
@@ -124,6 +135,49 @@ def save_restaurant(request):
         # return error
         result = {"status":"error","data":""}
         return JsonResponse(result)
+
+
+def login_by_google(request):
+    if request.method == 'POST':
+        google_id = request.POST.get('google_id')
+        google_email = request.POST.get('google_email')
+        google_profile_url = request.POST.get('google_profile_url')
+        google_first_name = request.POST.get('google_first_name')
+        google_last_name = request.POST.get('google_last_name')
+
+        users = User.objects.filter(email=google_email)
+        if users:
+            # login with exists account
+            login(request, users[0])
+            result = {"status":"success","data":"User exists, login success!"}
+            return JsonResponse(result,safe=False) 
+
+        user = User()
+        user.username = google_email
+        user.email = google_email
+        user.set_password('123456') # init password is 123456
+        user.first_name = google_first_name
+        user.last_name = google_last_name
+        user.is_active = True
+        user.save()
+
+        profile = UserProfile(user=user)
+
+        # get profile from google
+        # r = urlopen(google_profile_url)
+        # io = BytesIO(r.read())
+        # result = profile.picture.save("{}_{}.jpg".format('test',int(time.time())), File(io))
+        # profile.picture = google_profile_url
+        profile.save()
+
+        login(request, user)
+
+        result = {"status":"success","data":"Login success!"+result}
+        return JsonResponse(result,safe=False) 
+    else:
+        result = {"status":"error","data":"Not Post Method"}
+        return JsonResponse(result,safe=False) 
+
 
 def register(request):
     # A boolean value for telling the template
