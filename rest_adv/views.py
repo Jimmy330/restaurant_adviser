@@ -15,14 +15,20 @@ from rest_adv.forms import UserForm, UserProfileForm, ReviewForm, RestaurantForm
 def index(request):
     return render(request,'rest_adv/index.html')
 
+def category_restaurant(request, category):
+    context_dict={'restaurants':[],'search_text':category}
+    try:
+        restaurants = Restaurant.objects.filter(category=category)
+        context_dict['restaurants'] = restaurants
+    except Restaurant.DoesNotExist:
+        context_dict['restaurants'] = []
+    return render(request, 'rest_adv/search_restaurant.html', context = context_dict)
+
 def search_restaurant(request):
     search_text = request.GET.get('search_text')
     context_dict={'restaurants':[],'search_text':search_text}
     try:
         restaurants = Restaurant.objects.filter(intro__contains=search_text)
-        # for restaurant in restaurants:
-        #     if hasattr(restaurant.picture, 'url') == False:
-        #         restaurant
         context_dict['restaurants'] = restaurants
     except Restaurant.DoesNotExist:
         context_dict['restaurants'] = []

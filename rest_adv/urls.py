@@ -18,4 +18,5 @@ urlpatterns = [
     path('update_my_profile',views.update_my_profile,name='update_my_profile'),
     path('my_collections',views.my_collections,name='my_collections'),
     path('my_reviews',views.my_reviews,name='my_reviews'),
+    path('category_restaurant/<str:category>/',views.category_restaurant,name='category_restaurant'),
 ]
