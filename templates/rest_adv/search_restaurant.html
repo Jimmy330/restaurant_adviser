@@ -154,6 +154,16 @@
         color: honeydew;
         font-weight: bold;
     }
+    .m-mostliked__ultitle>a {
+        font-size: 16px;
+        color: honeydew;
+        font-weight: bold;
+    }
+    .m-mostliked__ultitle>a:hover {
+        font-size: 16px;
+        color: honeydew;
+        font-weight: bold;
+    }
     
     .m-mostliked__starrating {}
     
@@ -209,31 +219,26 @@
     </div>
 </div>
 <div class="col-md-2 ">
-    <div class="m-mostliked l-mostliked ">
-        <div class="m-mostliked__title l-mostliked__title ">
+    <div class="m-mostliked l-mostliked">
+        <div class="m-mostliked__title l-mostliked__title">
             Most Liked
         </div>
-        <ul class="l-mostliked__ul m-mostliked__ul ">
-            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/1.jpeg' %}) ">
-                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
-                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
+        <ul class="l-mostliked__ul m-mostliked__ul">
+            {% for top_restaurant in top_restaurants %}
+
+            {% if top_restaurant.picture %}
+            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({{top_restaurant.picture.url}})">
+            {% else %}
+            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({% static 'images/1.jpeg' %})">
+            {% endif %}
+                <div class="l-mostliked__ultitle m-mostliked__ultitle">
+                    <a href="{% url 'rest_adv:show_restaurant' top_restaurant.slug %}">
+                        {{top_restaurant.name}}
+                    </a>
+                </div>
+                <input type="text" class="m-mostliked__starrating" value="{{top_restaurant.rate}}" data-size="xs">
             </li>
-            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/2.jpeg' %}) ">
-                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
-                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
-            </li>
-            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/3.jpeg' %}) ">
-                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
-                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
-            </li>
-            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/1.jpeg' %}) ">
-                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
-                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
-            </li>
-            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/2.jpeg' %}) ">
-                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
-                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
-            </li>
+            {% endfor %}
         </ul>
     </div>
 </div>

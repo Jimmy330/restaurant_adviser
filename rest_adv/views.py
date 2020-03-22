@@ -26,7 +26,7 @@ def index(request):
     context_dict['top_restaurants'] = Restaurant.objects.all().order_by('-rate')[:3]
 
     # get first
-    context_dict['first_restaurant'] = context_dict['first_restaurant'][0]
+    context_dict['first_restaurant'] = context_dict['top_restaurants'][0]
     return render(request,'rest_adv/index.html', context_dict)
 
 def category_restaurant(request, category):
@@ -34,6 +34,7 @@ def category_restaurant(request, category):
     try:
         restaurants = Restaurant.objects.filter(category=category)
         context_dict['restaurants'] = restaurants
+        context_dict['top_restaurants'] = Restaurant.objects.all().order_by('-rate')[:3]
     except Restaurant.DoesNotExist:
         context_dict['restaurants'] = []
     return render(request, 'rest_adv/search_restaurant.html', context = context_dict)
@@ -44,6 +45,8 @@ def search_restaurant(request):
     try:
         restaurants = Restaurant.objects.filter(intro__contains=search_text)
         context_dict['restaurants'] = restaurants
+
+        context_dict['top_restaurants'] = Restaurant.objects.all().order_by('-rate')[:3]
     except Restaurant.DoesNotExist:
         context_dict['restaurants'] = []
     return render(request, 'rest_adv/search_restaurant.html', context = context_dict)
@@ -336,6 +339,7 @@ def add_restaurant(request):
             restaurant.rate = 0
             if 'picture' in request.FILES:
                 restaurant.picture = request.FILES['picture']
+            restaurant.category = request.POST.get('category')
             restaurant.save()
             return redirect(reverse('rest_adv:show_restaurant',
                                     kwargs={'restaurant_name_slug':
