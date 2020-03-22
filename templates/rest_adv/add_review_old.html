@@ -1,0 +1,9 @@
+{% extends 'rest_adv/base.html' %} {% load staticfiles %} {% load rest_adv_template_tags %} {% block title_block %} Add a Review {% endblock %} {% block body_block %}
+<div>
+    <form id="review_form" method="post" action="/rest_adv/restaurant/{{ restaurant.slug }}/add_review/">
+        {% csrf_token %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% for field in form.visible_fields %} {{ field.errors }} {{ field.help_text }} {{ field }}
+        <br> {% endfor %}
+        <input type="submit" name="submit" value="Add Review" />
+    </form>
+</div>
+{% endblock %}

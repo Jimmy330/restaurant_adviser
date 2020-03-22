@@ -172,24 +172,20 @@ def add_review(request, restaurant_name_slug):
         return redirect('rest_adv')
 
     form = ReviewForm()
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            if restaurant:
-                # insert review
-                review = form.save(commit=False)
-                review.restaurant=restaurant
-                review.user=request.user
-                review.save()
+    if request.method == 'POST' and restaurant:
+        review = Review()
+        review.rate = request.POST.get('rate')
+        review.message = request.POST.get('message')
+        review.restaurant=restaurant
+        review.user=request.user
+        review.save()
 
-                # update restaurant rate
-                calculate_rate(restaurant)
+        # update restaurant rate
+        calculate_rate(restaurant)
 
-                return redirect(reverse('rest_adv:show_restaurant',
+        return redirect(reverse('rest_adv:show_restaurant',
                                         kwargs={'restaurant_name_slug':
                                                 restaurant_name_slug}))
-        else:
-            print(form.errors)
     context_dict={'form':form,'restaurant':restaurant}
     return render(request,'rest_adv/add_review.html',context_dict)
 
