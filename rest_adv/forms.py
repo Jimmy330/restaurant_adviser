@@ -30,10 +30,10 @@ class ReviewForm(forms.ModelForm):
         fields = ('rate', 'message',)
 
 class RestaurantForm(forms.ModelForm):
-    name = forms.CharField(max_length=128)
+    name = forms.CharField(max_length=128,widget=forms.TextInput(attrs={'class':'form-control'}))
     rate = forms.FloatField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
-    intro = forms.CharField()
+    intro = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     class Meta:
         model = Restaurant
         fields = ('name','picture','intro')

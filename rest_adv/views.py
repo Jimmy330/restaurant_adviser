@@ -187,6 +187,7 @@ def register(request):
 
 
 def user_login(request):
+    context_dict = {}
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -206,11 +207,13 @@ def user_login(request):
                 return redirect(reverse('rest_adv:index'))
             else:
                 # An inactive account was used - no logging in!
-                return HttpResponse("Your Rango account is disabled.")
+                context_dict['message'] = "Your Rango account is disabled."
+                return render(request, 'rest_adv/login.html', context_dict)
         else:
             # Bad login details were provided. So we can't log the user in.
             print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            context_dict['message'] = "Invalid login details supplied."
+            return render(request, 'rest_adv/login.html', context_dict)
             # The request is not a HTTP POST, so display the login form.
             # This scenario would most likely be a HTTP GET.
     else:
