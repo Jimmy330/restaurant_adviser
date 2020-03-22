@@ -1,6 +1,8 @@
+import json
+
 from django.shortcuts import render
-from django.http import HttpResponse
-from rest_adv.models import Restaurant,Review
+from django.http import HttpResponse, JsonResponse
+from rest_adv.models import Restaurant,Review,UserProfile
 
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -24,6 +26,29 @@ def show_restaurant(request, restaurant_name_slug):
     except Restaurant.DoesNotExist:
         context_dict['restaurant'] = None
     return render(request, 'rest_adv/restaurant.html', context = context_dict)
+
+@login_required
+def save_restaurant(request):
+    try:
+        print(request.body)
+        if request.method == 'POST':
+            # json_result = json.loads(request.body, strict=False)
+            restaurant_id = request.POST.get('id')
+            restaurant = Restaurant.objects.get(id=restaurant_id)
+            
+            # request.user.like_restaurants.add(restaurant_id)
+            current_user = UserProfile.objects.get(user_id=request.user.id)
+            current_user.like_restaurants.add(restaurant_id)
+            # return success
+            result = {"status":"not post","data":current_user.name}
+            return JsonResponse(result,safe=False) 
+        else:
+            result = {"status":"not post","data":[request.body]}
+            return JsonResponse(result,safe=False) 
+    except Restaurant.DoesNotExist:
+        # return error
+        result = {"status":"error","data":""}
+        # return JsonResponse(result)
 
 def register(request):
     # A boolean value for telling the template
@@ -139,10 +164,15 @@ def add_review(request, restaurant_name_slug):
         form = ReviewForm(request.POST)
         if form.is_valid():
             if restaurant:
+                # insert review
                 review = form.save(commit=False)
                 review.restaurant=restaurant
                 review.user=request.user
                 review.save()
+
+                # update restaurant rate
+                calculate_rate(restaurant)
+
                 return redirect(reverse('rest_adv:show_restaurant',
                                         kwargs={'restaurant_name_slug':
                                                 restaurant_name_slug}))
@@ -150,6 +180,20 @@ def add_review(request, restaurant_name_slug):
             print(form.errors)
     context_dict={'form':form,'restaurant':restaurant}
     return render(request,'rest_adv/add_review.html',context_dict)
+
+def calculate_rate(restaurant):
+    """
+    Read all rates, calculate the average as new rate.
+    """
+    new_rate = 0
+    all_reviews = restaurant.review_set.all()
+    rate_count = len(all_reviews)
+    for review in all_reviews:
+        new_rate += review.rate
+    new_rate = round(new_rate/rate_count,2)
+    restaurant.rate = new_rate
+    restaurant.save()
+    return True
 
 @login_required
 def add_restaurant(request):

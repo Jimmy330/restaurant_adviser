@@ -13,4 +13,5 @@ urlpatterns = [
     path('restaurant/<slug:restaurant_name_slug>/add_review/',
          views.add_review, name='add_review'),
     path('add_restaurant/',views.add_restaurant,name='add_restaurant'),
+    path('save_restaurant/',views.save_restaurant,name='save_restaurant'),
 ]

@@ -10,6 +10,14 @@ class Restaurant(models.Model):
     intro = models.TextField(default = 'nothing yet')
     picture = models.ImageField(upload_to='restaurant_images', blank=True)
 
+    createdAt = models.DateTimeField("Create time",auto_now_add=True)
+    updatedAt = models.DateTimeField("Update time",auto_now=True)
+    deletedAt = models.DateTimeField("Delete time",null=True,default=None)
+
+    def delete(self, using=None, keep_parents=False):
+        self.deletedAt = timezone.now()
+        self.save()
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Restaurant, self).save(*args, **kwargs)
@@ -27,6 +35,14 @@ class Review(models.Model):
     rate = models.IntegerField(default = 0)
     message = models.TextField(default = 'nothing yet')
 
+    createdAt = models.DateTimeField("Create time",auto_now_add=True)
+    updatedAt = models.DateTimeField("Update time",auto_now=True)
+    deletedAt = models.DateTimeField("Delete time",null=True,default=None)
+
+    def delete(self, using=None, keep_parents=False):
+        self.deletedAt = timezone.now()
+        self.save()
+
     def __str__(self):
         return self.rate
 
@@ -36,5 +52,15 @@ class UserProfile(models.Model):
     # The additional attributes we wish to include.
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
+    like_restaurants = models.ManyToManyField('Restaurant')
+
+    createdAt = models.DateTimeField("Create time",auto_now_add=True)
+    updatedAt = models.DateTimeField("Update time",auto_now=True)
+    deletedAt = models.DateTimeField("Delete time",null=True,default=None)
+
+    def delete(self, using=None, keep_parents=False):
+        self.deletedAt = timezone.now()
+        self.save()
+
     def __str__(self):
         return self.user.username

@@ -1,12 +1,230 @@
-<!DOCTYPE html>
-{% extends 'rest_adv/base.html' %}
-{% load staticfiles %}
-{% block title_block %}
-    Login
-{% endblock %}
+{% extends 'rest_adv/base.html' %} {% load staticfiles %} {% block title_block %} Login {% endblock %} {% block css_block %}
+<style>
+    .m-advertise__carousel {
+        height: 400px;
+    }
+    
+    .carousel-inner>.item>a>img {
+        width: 100%;
+        height: 400px;
+    }
+    
+    .carousel-caption {
+        /* font-size: 32px;
+        padding: 10px; */
+    }
+    /* category */
+    
+    .category {
+        /* background-color: violet; */
+    }
+    
+    .l-category__title {
+        margin-bottom: 10px;
+    }
+    
+    .m-category__title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    
+    .l-category__ul {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .m-category__ul {
+        list-style: none;
+    }
+    
+    .m-category__li {
+        padding: 5px 0;
+        list-style: none;
+    }
+    
+    .m-category__a {
+        color: black;
+        font-size: 16px;
+    }
+    
+    .m-category__a:hover {
+        color: black;
+    }
+    /* category */
+    
+    .advertise {
+        /* margin: 10px; */
+        background-color: yellowgreen;
+    }
+    /* mostliked */
+    
+    .m-mostliked {
+        /* background-color: green; */
+    }
+    
+    .l-mostliked__title {
+        margin-bottom: 10px;
+    }
+    
+    .m-mostliked__title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    
+    .l-mostliked__ul {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .m-mostliked__ul {
+        list-style: none;
+    }
+    
+    .m-mostliked__li {
+        list-style: none;
+        height: 100px;
+        padding: 10px;
+        background-size: 100% 100%;
+    }
+    
+    .m-mostliked__ultitle {
+        font-size: 16px;
+        color: honeydew;
+        font-weight: bold;
+    }
+    
+    .m-mostliked__starrating {}
+    
+    .m-mostliked__a {
+        color: black;
+        font-size: 16px;
+    }
+    
+    .m-mostliked__a:hover {
+        color: black;
+    }
+    /* mostliked */
+</style>
+{% endblock %} {% block body_block %}
 
-{% block body_block %}
-<h1>this is a test index view</h1>
- <a href="{% url 'rest_adv:add_restaurant'%}">添加一个餐厅</a> <br />
- <a href="{% url 'rest_adv:show_restaurant' "rest-test1" %}">一个餐厅界面的demo</a> <br />
+
+<div class="col-md-2">
+    <div class="category">
+        <div class="m-category__title l-category__title">
+            Categories
+        </div>
+        <ul class="l-category__ul m-category__ul">
+            <li class="l-category__li m-category__li"><a href="#" class="m-category__a">Chinese food</a></li>
+            <li class="l-category__li m-category__li"><a href="#" class="m-category__a">Italian</a></li>
+            <li class="l-category__li m-category__li"><a href="#" class="m-category__a">Sushi</a></li>
+            <li class="l-category__li m-category__li"><a href="#" class="m-category__a">Fast food</a></li>
+            <li class="l-category__li m-category__li"><a href="#" class="m-category__a">Snack</a></li>
+            <li class="l-category__li m-category__li"><a href="#" class="m-category__a">Ice cream</a></li>
+        </ul>
+    </div>
+</div>
+<div class="col-md-8">
+    <div class="advertise">
+        <div id="carousel-example-generic" class="m-advertise__carousel carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <a href={% url 'rest_adv:show_restaurant' "rest-test1" %}>
+                        <img src={% static "images/1.jpeg" %} class="d-block w-100 m-carousel-image" alt="Lorem Ipsum Dolor Sample Text">
+                    </a>
+                    <div class="carousel-caption">
+                        <h3>Lorem Ipsum Dolor Sample Text</h3>
+                    </div>
+                </div>
+                <div class="item">
+                    <a href={% url 'rest_adv:show_restaurant' "rest-test1" %}>
+                        <img src={% static "images/2.jpeg" %} class="d-block w-100 m-carousel-image" alt="...">
+                    </a>
+                    <div class="carousel-caption">
+                        <h3>Lorem Ipsum Dolor Sample Text</h3>
+
+                    </div>
+                </div>
+                <div class="item">
+                    <a href={% url 'rest_adv:show_restaurant' "rest-test1" %}>
+                        <img src={% static "images/3.jpeg" %} class="d-block w-100 m-carousel-image" alt="">
+                    </a>
+                    <div class="carousel-caption">
+                        <h3>Lorem Ipsum Dolor Sample Text</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="col-md-2">
+    <div class="m-mostliked l-mostliked">
+        <div class="m-mostliked__title l-mostliked__title">
+            Most Liked
+        </div>
+        <ul class="l-mostliked__ul m-mostliked__ul">
+            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({% static 'images/1.jpeg' %})">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text" class="m-mostliked__starrating" value="4.5" data-size="xs">
+            </li>
+            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({% static 'images/2.jpeg' %})">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text" class="m-mostliked__starrating" value="4.5" data-size="xs">
+            </li>
+            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({% static 'images/3.jpeg' %})">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text" class="m-mostliked__starrating" value="4.5" data-size="xs">
+            </li>
+            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({% static 'images/1.jpeg' %})">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text" class="m-mostliked__starrating" value="4.5" data-size="xs">
+            </li>
+            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({% static 'images/2.jpeg' %})">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text" class="m-mostliked__starrating" value="4.5" data-size="xs">
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %} {% block js_block %}
+<script type="text/javascript ">
+    $('.carousel').carousel({
+        interval: 2000
+    })
+
+    $(".m-mostliked__starrating").rating({
+        min: 1,
+        max: 5,
+        // step: 1,
+        // size: 'lg',
+        readonly: true,
+        displayOnly: true,
+        hoverEnabled: false,
+        starCaptions: function(val) {
+            return val + ' stars';
+        }
+    });
+</script>
 {% endblock %}

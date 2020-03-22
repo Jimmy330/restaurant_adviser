@@ -1,18 +1,57 @@
-<!DOCTYPE html>
-{% extends 'rest_adv/base.html' %}
-{% load staticfiles %}
-{% block title_block %}
-    Login
-{% endblock %}
+<!DOCTYPE html> {% extends 'rest_adv/base.html' %} {% load staticfiles %} {% block title_block %} Login {% endblock %} {% block body_block %}
 
-{% block body_block %}
-    <h1>Login to Restaurant Adviser</h1>
-    <form id="login_form" method="post" action="{% url 'rest_adv:login' %}">
-        {% csrf_token %}
-        Username: <input type="text" name="username" value="" size="50" />
-        <br />
-        Password: <input type="password" name="password" value="" size="50" />
-        <br />
-        <input type="submit" value="submit" />
-    </form>
+<button id="customBtn" type="button">Google登录</button>
+
+<button type="button" onclick="signOut();">Sign out</button>
+
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script>
+    var googleUser = {};
+    var startApp = function() {
+        gapi.load('auth2', function() {
+            auth2 = gapi.auth2.init({
+                client_id: '329317736900-nm6iha5dj81ochq5tjm4je4vn5nehmrh.apps.googleusercontent.com', //客户端ID
+                cookiepolicy: 'single_host_origin',
+                scope: 'profile' //可以请求除了默认的'profile' and 'email'之外的数据
+            });
+            attachSignin(document.getElementById('customBtn'));
+        });
+    };
+
+    function attachSignin(element) {
+        auth2.attachClickHandler(element, {},
+            function(googleUser) {
+                var profile = auth2.currentUser.get().getBasicProfile();
+
+                console.log('ID: ' + profile.getId());
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail());
+            },
+            function(error) {
+                console.log(JSON.stringify(error, undefined, 2));
+            });
+    }
+    startApp();
+
+    //注销
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function() {
+            alert('用户注销成功');
+        });
+    }
+</script>
+
+
+
+<h1>Login to Restaurant Adviser</h1>
+<form id="login_form" method="post" action="{% url 'rest_adv:login' %}">
+    {% csrf_token %} Username: <input type="text" name="username" value="" size="50" />
+    <br /> Password: <input type="password" name="password" value="" size="50" />
+    <br />
+    <input type="submit" value="submit" />
+</form>
 {% endblock %}
