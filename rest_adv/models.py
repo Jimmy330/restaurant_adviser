@@ -7,8 +7,18 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=128, unique=True)
     rate = models.FloatField(default = 0)
     slug = models.SlugField(unique = True)
+
+    # current categories:
+    # chinese food
+    # italian
+    # sushi
+    # fast food
+    # snack
+    # ice cream
+    category = models.CharField(max_length=64, default='fast food') # everyone loves junk food :)
+
     intro = models.TextField(default = 'nothing yet')
-    picture = models.ImageField(upload_to='restaurant_images', blank=True)
+    picture = models.ImageField(upload_to='restaurant_images', blank=True, default="statics/images/1.jpeg")
 
     createdAt = models.DateTimeField("Create time",auto_now_add=True)
     updatedAt = models.DateTimeField("Update time",auto_now=True)

@@ -1,0 +1,53 @@
+{% extends 'rest_adv/base.html' %} {% load staticfiles %} {% load rest_adv_template_tags %} {% block title_block %} Restaurant Page {% endblock %} {% block body_block %} {% if restaurant %}
+<div class="card">
+    <div class="card-body">
+        {% csrf_token %}
+        <h4>{{ restaurant.name }}</h4>
+        <h5>rate:{{ restaurant.rate }}</h5>
+        <div>
+            {{restaurant.intro}}
+        </div>
+        <div style="float: right;">
+            <a href="url" style="margin:5px;">review</a><a href="url" style="margin:5px;">share</a>
+            <button id="save-restaurant">save</button>
+        </div>
+    </div>
+    {{restaurant.}} {% if restaurant.picture %}
+    <div style="float:right;margin:10px;width:30%">
+        <img src={{restaurant.picture.url}} height="200" width="150">
+    </div>
+    {% endif %} {% endif %} {% for r in reviews %} {% block sidebar_block %} {% show_review r %} {% endblock %} {% endfor %} {% if user.is_authenticated %}
+    <a href="{% url 'rest_adv:add_review' restaurant.slug %}">Add Review</a> <br /> {% endif %} {% endblock %} {% block js_block %}
+    <script type="text/javascript ">
+        $("#save-restaurant").click(function(e) {
+            let csrf = $('input[name="csrfmiddlewaretoken"]').val();
+            console.log('saving restaurant ...');
+            let url = "{% url 'rest_adv:save_restaurant' %}"
+
+            $.ajax({
+                url: url,
+                data: {
+                    'csrfmiddlewaretoken': csrf,
+                    'id': "{{restaurant.id}}"
+                },
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    // if (data.msg == "true") {
+                    //     // view("修改成功！");    
+                    //     alert("修改成功！");
+                    //     window.location.reload();
+                    // } else {
+                    //     view(data.msg);
+                    // }
+                },
+                error: function() {
+                    // view("异常！");    
+                    alert("异常！");
+                }
+            });
+        });
+    </script>
+    {% endblock %}

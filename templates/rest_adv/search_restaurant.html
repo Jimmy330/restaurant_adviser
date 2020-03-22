@@ -98,14 +98,6 @@
         font-size: 28px;
         font-weight: bold;
     }
-
-    .m-restaurant-list__title>a {
-        color: black;
-    }
-
-    .m-restaurant-list__title>a:hover {
-        color: black;
-    }
     
     .m-restaurant-list__p {
         font-size: 16px;
@@ -119,6 +111,12 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
     }
+    
+    .l-restaurant-list__ul {}
+    
+    .l-restaurant-list__ul {}
+    
+    .l-restaurant-list__ul {}
     /* restaurant list */
     /* mostliked */
     
@@ -156,16 +154,6 @@
         color: honeydew;
         font-weight: bold;
     }
-    .m-mostliked__ultitle>a {
-        font-size: 16px;
-        color: honeydew;
-        font-weight: bold;
-    }
-    .m-mostliked__ultitle>a:hover {
-        font-size: 16px;
-        color: honeydew;
-        font-weight: bold;
-    }
     
     .m-mostliked__starrating {}
     
@@ -198,99 +186,61 @@
     </div>
 </div>
 <div class="col-md-8">
-    <div class="advertise">
-        <div id="carousel-example-generic" class="m-advertise__carousel carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-                {% for top_restaurant in top_restaurants %}
-                
-                {% if top_restaurant == first_restaurant %}
-                <div class="item active">
-                {% else %}
-                <div class="item">
-                {% endif %}
-                    <a href="{% url 'rest_adv:show_restaurant' top_restaurant.slug %}">
-                        {% if top_restaurant.picture %}
-                        <img src={{top_restaurant.picture.url}} class="d-block w-100 m-carousel-image" alt="Lorem Ipsum Dolor Sample Text">
-                        {% else %}
-                        <img src={% static "images/1.jpeg" %} class="d-block w-100 m-carousel-image" alt="Lorem Ipsum Dolor Sample Text">
-                        {% endif %}
-                    </a>
-                    <div class="carousel-caption">
-                        <h3>{{top_restaurant.name}}</h3>
-                    </div>
-                </div>
-                {% endfor %}
-
-            </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div>
+    <h2>Search {{search_text}} results:</h2>
     <div class="l-restaurant-list m-restaurant-list">
         <ul class="l-restaurant-list__ul m-restaurant-list__ul">
             {% for restaurant in restaurants %}
             <li class="l-restaurant-list__li m-restaurant-list__li">
                 <div class="l-restaurant-list__cover m-restaurant-list__cover">
                     {% if restaurant.picture %}
-                    <img class="m-restaurant-list__coverimg" src={{restaurant.picture.url}} alt="...">
-                    {% else %}
-                    <img class="m-restaurant-list__coverimg" src={% static "images/2.jpeg" %} alt="...">
-                    {% endif %}
+                    <img class="m-restaurant-list__coverimg" src={{restaurant.picture.url}} alt="..."> {% else %}
+                    <img src={% static "images/3.jpeg" %} class="m-restaurant-list__coverimg alt=" Lorem Ipsum Dolor Sample Text "> {% endif %}
                 </div>
-                <div class="l-restaurant-list__description m-restaurant-list__description">
-                    <div class="l-restaurant-list__title m-restaurant-list__title">
-                        <a href="{% url 'rest_adv:show_restaurant' restaurant.slug %}">
-                            {{restaurant.name}}
-                        </a>
-                    </div>
-                    <input type="text" class="m-mostliked__starrating" value="{{restaurant.rate}}" data-size="sm">
-                    <div class="l-restaurant-list__p m-restaurant-list__p">{{restaurant.intro}}</div>
+                <div class="l-restaurant-list__description m-restaurant-list__description ">
+                    <div class="l-restaurant-list__title m-restaurant-list__title ">{{restaurant.name}}</div>
+                    <input type="text " class="m-mostliked__starrating " value="{{restaurant.rate}} " data-size="sm ">
+                    <div class="l-restaurant-list__p m-restaurant-list__p ">{{restaurant.intro}}</div>
                 </div>
             </li>
+
+
             {% endfor %}
         </ul>
     </div>
 </div>
-<div class="col-md-2">
-    <div class="m-mostliked l-mostliked">
-        <div class="m-mostliked__title l-mostliked__title">
+<div class="col-md-2 ">
+    <div class="m-mostliked l-mostliked ">
+        <div class="m-mostliked__title l-mostliked__title ">
             Most Liked
         </div>
-        <ul class="l-mostliked__ul m-mostliked__ul">
-            {% for top_restaurant in top_restaurants %}
-
-            {% if top_restaurant.picture %}
-            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({{top_restaurant.picture.url}})">
-            {% else %}
-            <li class="l-mostliked__li m-mostliked__li" style="background-image: url({% static 'images/1.jpeg' %})">
-            {% endif %}
-                <div class="l-mostliked__ultitle m-mostliked__ultitle">
-                    <a href="{% url 'rest_adv:show_restaurant' top_restaurant.slug %}">
-                        {{top_restaurant.name}}
-                    </a>
-                </div>
-                <input type="text" class="m-mostliked__starrating" value="{{top_restaurant.rate}}" data-size="xs">
+        <ul class="l-mostliked__ul m-mostliked__ul ">
+            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/1.jpeg' %}) ">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
             </li>
-            {% endfor %}
+            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/2.jpeg' %}) ">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
+            </li>
+            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/3.jpeg' %}) ">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
+            </li>
+            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/1.jpeg' %}) ">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
+            </li>
+            <li class="l-mostliked__li m-mostliked__li " style="background-image: url({% static 'images/2.jpeg' %}) ">
+                <div class="l-mostliked__ultitle m-mostliked__ultitle ">Lorem Ipsum Dolor Sample Text</div>
+                <input type="text " class="m-mostliked__starrating " value="4.5 " data-size="xs ">
+            </li>
         </ul>
     </div>
 </div>
+
+
+
+
 
 {% endblock %} {% block js_block %}
 <script type="text/javascript ">
@@ -298,7 +248,7 @@
         interval: 2000
     })
 
-    $(".m-mostliked__starrating").rating({
+    $(".m-mostliked__starrating ").rating({
         min: 1,
         max: 5,
         // step: 1,

@@ -11,17 +11,43 @@
         <form id="restaurant_form" method="post" action="{% url 'rest_adv:add_restaurant' %}"
               enctype="multipart/form-data">
             {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
+            <label for="">Name</label>
+            <input name="name" class="l-profile__name m-profile__name form-control" type="text">
+            <label for="">Slug</label>
+            <input name="slug" class="l-profile__name m-profile__name form-control" type="text">
+            <label for="">Rate</label>
+            <input name="rate" type="text " class="m-add-review__starrating " value="{{review.rate}} " data-size="sm ">
+            <label for="">Category</label>
+            <select name="category" class="form-control">
+                <option>chinese food</option>
+                <option>italian</option>
+                <option>sushi</option>
+                <option>fast food</option>
+                <option>snack</option>
+                <option>ice cream</option>
+            </select>
+            <label for="">Intro</label>
+            <textarea name="intro" class="l-profile__name m-profile__name form-control" rows="3"></textarea>
+
+            <label for="">Picture</label>
+            <input type="file" name="picture">
 
             <!-- Provide a button to click to submit the form. -->
             <input type="submit" name="submit" value="Submit" />
         </form>
 
+{% endblock %}
+
+{% block js_block %}
+<script type="text/javascript ">
+    $(".m-add-review__starrating ").rating({
+        min: 1,
+        max: 5,
+        step: 1,
+        // size: 'lg',
+        starCaptions: function(val) {
+            return val + ' stars';
+        }
+    });
+</script>
 {% endblock %}

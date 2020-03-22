@@ -164,7 +164,7 @@
 <body>
     <div class="m-nav l-nav">
         <h5 class="m-nav__logo l-nav__logo">
-            <a href="{% url 'rest_adv:index' %}">
+            <a id="index-a" href="{% url 'rest_adv:index' %}">
                 <img src={% static "images/logo.png" %} width="320px" height="75px" />
             </a>
         </h5>
@@ -175,7 +175,7 @@
 
             {% if user.is_authenticated %}
             <!-- Show these links when the user is logged in -->
-            <li class="m-nav__loginli"><a class="m-nav__logina" href="{% url 'rest_adv:logout' %}">My Account</a></li>
+            <li class="m-nav__loginli"><a class="m-nav__logina" href="{% url 'rest_adv:my_profile' %}">My Account</a></li>
             <li class="m-nav__loginli"><a class="m-nav__logina" href="{% url 'rest_adv:logout' %}">Logout</a></li>
             {% else %}
             <li class="m-nav__loginli"><a class="m-nav__logina" href="{% url 'rest_adv:register' %}">Sign Up</a></li>
@@ -185,21 +185,15 @@
     </div>
 
     <div class="l-search m-search">
-        <form class="l-search__form">
-            <input class="l-search__input m-search__input form-control" type="search" placeholder="Search" aria-label="Search">
+        <form class="l-search__form" method="get" action="/rest_adv/search_restaurant">
+            {% csrf_token %}
+            <input name="search_text" class="l-search__input m-search__input form-control" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
 
     <div class="l-main-body m-main-body">
-        <!-- row -->
-        <!-- <div class="row"> -->
-        <!-- <div class="row"> -->
-
         {% block body_block %} {% endblock %}
-        <!-- </div> -->
-        <!-- row -->
-
     </div>
 
 
