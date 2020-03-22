@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # for django-allauth
-        'allauth',
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     # ... include the providers you want to enable:
