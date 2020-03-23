@@ -24,7 +24,7 @@
         {% else %}
             <br />
             <form id="user_form" method="post" action="{% url 'rest_adv:register' %}"
-                  enctype="multipart/form-data">
+                  enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
     
             <!-- Display each form -->
