@@ -28,7 +28,7 @@ SECRET_KEY = 'nyd*17wo3ykdxhkyds!p$i%6fls=(b219xhq()f@gxgc0y%l7)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_REDIRECT_URL = '/rest_adv/login/'
 LOGIN_URL = '/rest_adv/login/'
