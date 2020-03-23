@@ -301,6 +301,13 @@ def add_review(request, restaurant_name_slug):
     if request.method == 'POST' and restaurant:
         review = Review()
         review.rate = request.POST.get('rate')
+
+        # rate must in 0~5
+        if review.rate > 5:
+            review.rate = 5
+        if review.rate < 0:
+            review.rate = 0
+
         review.message = request.POST.get('message')
         review.restaurant=restaurant
         review.user=request.user
