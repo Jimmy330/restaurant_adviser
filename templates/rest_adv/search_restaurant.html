@@ -207,7 +207,11 @@
                     <img src={% static "images/3.jpeg" %} class="m-restaurant-list__coverimg alt=" Lorem Ipsum Dolor Sample Text "> {% endif %}
                 </div>
                 <div class="l-restaurant-list__description m-restaurant-list__description ">
-                    <div class="l-restaurant-list__title m-restaurant-list__title ">{{restaurant.name}}</div>
+                    <div class="l-restaurant-list__title m-restaurant-list__title ">
+                        <a href="{% url 'rest_adv:show_restaurant' restaurant.slug %}">
+                            {{restaurant.name}}
+                        </a>
+                    </div>
                     <input type="text " class="m-mostliked__starrating " value="{{restaurant.rate}} " data-size="sm ">
                     <div class="l-restaurant-list__p m-restaurant-list__p ">{{restaurant.intro}}</div>
                 </div>
